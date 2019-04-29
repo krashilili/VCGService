@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>VMware Compatibility Guide - I/O Device Search</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta http-equiv="Content-Language" content="en" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="-1" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>  <link rel="shortcut icon" type="image/x-icon"
+    href="//www.vmware.com/favicon.ico" />
+<link rel="stylesheet" type="text/css"
+    href="//www.vmware.com/files/css/framework/redesign_compatibility_guide.css" />
+<link rel="stylesheet" type="text/css"
+    href="//www.vmware.com/files/templates/inc/fce.css" />
+<link rel="stylesheet" type="text/css"
+    href="//www.vmware.com/files/templates/inc/print.css" media="print" />
+<link rel="stylesheet"
+    href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+    href="./css/bootstrap-theme.min.css" />
+    <link rel="stylesheet"
+    href="https://www.vmware.com/content/dam/vmwaredesigns/scrapercontent/responsive.css" />
+<link rel="stylesheet" type="text/css" href="site.css" />
+<link rel="stylesheet" type="text/css" href="vsan.css" />
+<!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="site_ie8main.css" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="print_tm.css" media="print" />
+<!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="print_ie.css"  media="print" />
+<![endif]-->
+<script type="text/javascript"
+    src="//code.jquery.com/jquery-1.4.1.min.js"></script>
+<script type="text/javascript" src="jsfiles/eol.js"></script>
+<script type="text/javascript"
+    src="//www.vmware.com/files/js/framework/redesign-scrapper.js"></script>
+    
+<script type="text/javascript" src="js/data_io.js?param=d8e404bf5d291817b43cbea7c271cbae"></script>
+<script type="text/javascript" src="jsfiles/translate.js?param=4ebb909e81959706fb14776942b4880a"></script>
+<script type="text/javascript" src="js_g11n/en/io.json?param=c45023de682a1313ab4cc5377046272c"></script><script>var current_locale="en";if(typeof(translation_data) != "undefined"){var trans_msgs=translation_data["messages"]};</script>
+<script type="text/javascript" src="js_g11n/en/common.json?param=c05263867d6eb58917654a99e2f95c79"></script><script>var msg_keys=Object.keys(translation_data["messages"]);
+                  if(typeof(trans_msgs) == "undefined"){var trans_msgs=[]};
+                  for(i=0;i<msg_keys.length;i++){
+                     trans_msgs[msg_keys[i]] = translation_data["messages"][msg_keys[i]];
+                  }
+              _.setTranslation(trans_msgs);</script><script> var vivaLogin=0;</script>  <script type="text/javascript">
+              function hideDiv(id){if(document.getElementById(id)!=null){document.getElementById(id).style.display='none';}}
+        function showDiv(id){document.getElementById(id).style.display='block';}
+        var WEBHCL2=document.cookie.indexOf('WEBHCL2');
+        var date = new Date();
+        date.setTime(date.getTime()+(60*24*60*60*1000));    //expires in 60 days
+        document.cookie = "WEBHCL2=true;expires="+date.toGMTString()+"; path=/";
+        function web_hcl10(){
+            document.cookie = "WEBHCL2=false;expires="+date.toGMTString()+"; path=/";
+            window.location="//"+window.location.host+"/comp_guide1/search.php";
+        }</script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
+        <script type="text/javascript">
+	var analyticsLoaded = false;
+    </script>
+
+            <script type="text/javascript">
+                (function (id) {
+                function append(scriptid, url, async) {
+                    var d = document, sn = 'script', f = d.getElementsByTagName(sn)[0];
+                    if (!f) f = d.head;
+                    var s = d.createElement(sn);
+                    s.async = true;
+                    s.id = scriptid;
+                    s.src = url;
+                    f.parentNode.insertBefore(s, f);
+                  }
+
+                function getRootDomain() {
+                    var parts = window.location.hostname.split('.');
+                    if (parts.length === 2) rootDomain = parts[0];
+                    else if (parts.length > 2) {
+                      // see if the next to last value is a common tld
+                      var part = parts[parts.length - 2];
+                      if (part === 'com' || part === 'co') {
+                        rootDomain = parts[parts.length - 3]; // go back one more
+                      }
+                      else {
+                        rootDomain = part;
+                      }
+                    }
+                    return rootDomain;
+                  }
+                window.evidon = {};
+                window.evidon.id = id;
+                var cdn = '//c.evidon.com/', rootDomain = getRootDomain(), noticecdn = cdn + 'sitenotice/';
+                  append('evidon-notice', noticecdn + 'evidon-sitenotice-tag.js', false);
+                  append('evidon-location', cdn + 'geo/country.js', true);
+                  append('evidon-themes', noticecdn + id + '/snthemes.js', true);
+                if (rootDomain) append('evidon-settings', noticecdn + id + '/' + rootDomain + '/settings.js', true);
+                window.evidon.priorConsentCallback = function () {
+                    if (/Selenium|LoadPass|PhantomJS/.test(navigator.userAgent)) {
+                      // E2E Testing with Selenium: Disable tracking
+                        window._gat = function() {}; // For Google Analytics
+                        window.s = undefined; // For Adobe Analytics
+                    } else if (!analyticsLoaded) {
+                        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                            })(window,document,'script', gaJsHost + 'google-analytics.com/ga.js','_gat');
+                 postscribe(document.head,'<script type="text/javascript" src="//tags.tiqcdn.com/utag/vmware/microsites/prod/utag.sync.js"><\/script>' +
+                '<script src="//www.vmware.com/files/templates/inc/utag_data.js"><\/script>',
+                { done: function() {
+                  utag_data.content_system = "Analytics : Compatibility Guide";
+                  (function(a,b,c,d){
+                  a='//tags.tiqcdn.com/utag/vmware/analytics/prod/utag.js';
+                  b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+                  a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+                  })();
+                }});
+                    analyticsLoaded = true;
+                    }
+                }
+               })(4478);
+        </script> <script type="text/javascript">
+    function trackDetailsPageEvents(partnerName, modelName, prodReleases){
+        if(typeof(_gat) == 'undefined' || _gat == undefined || typeof(_gat._getTracker) == 'undefined'){
+            return;
+        }
+        var pageTracker = _gat._getTracker("UA-10795258-1");
+        var trackingAction = "details";
+        var partner = "";
+        partner = partnerName;
+        if(partner != "" || partner !== undefined){
+            partner = "Partners: " + partner.replace(/,$/,"") + "; ";
+            trackingAction += " - partners";
+        }
+        var model = "";
+        model = modelName;
+        if(model != "" || model !== undefined){
+            model = "Model: " + model.replace(/,$/,"") + "; ";
+            if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - model";
+                else
+                    trackingAction += ", model";
+        }
+        var releases = "";
+        if((prodReleases) && (prodReleases instanceof Array)){
+            if(prodReleases){
+                var i = 0;
+                for(i=0; i<prodReleases.length; i++){
+                    if(prodReleases[i]){
+                        releases += prodReleases[i]+",";
+                    }
+                }
+                if(releases) {
+                    releases = "Release Version: " + releases.replace(/,$/,"") + "; ";
+                    if(trackingAction.indexOf('-') === -1)
+                        trackingAction += " - releases";
+                    else
+                        trackingAction += ", releases";
+                }
+            }
+        }
+        else {
+            if(prodReleases) {
+                releases = "Release Version: " + prodReleases.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - releases";
+                else
+                    trackingAction += ", releases";
+            }
+        }
+        var trackingLabels = partner + model + releases;
+        pageTracker._trackEvent("IO Devices", trackingAction, trackingLabels, 0, true);
+
+    }
+
+    function trackSearchEvents()
+    {
+        if(typeof(_gat) == 'undefined' || _gat == undefined || typeof(_gat._getTracker) == 'undefined'){
+            return;
+        }
+        var trackCategory = "IO Devices";
+        var pageTracker = _gat._getTracker("UA-10795258-1");
+        var trackingAction = "search";
+        // server
+        var releases = "";
+        var releasesSel = document.getElementById("releases");
+        if(releasesSel){
+            var i = 0;
+            for(i=0; i<releasesSel.length; i++){
+                if(releasesSel[i].selected){
+                    releases += releasesSel.options[i].innerHTML+",";
+                }
+            }
+            if(releases) {
+                releases = "Release Version: " + releases.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - releases";
+                else
+                    trackingAction += ", releases";
+            }
+        }
+        // srm
+        var srmVer = "";
+        var srmVerSel = document.getElementById("srmVer");
+        if(srmVerSel){
+            var i = 0;
+            for(i=0; i<srmVerSel.length; i++){
+                if(srmVerSel[i].selected){
+                    srmVer += srmVerSel.options[i].innerHTML+",";
+                }
+            }
+            if(srmVer) {
+                srmVer = "Release Version: " + srmVer.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - releases";
+                else
+                    trackingAction += ", releases";
+            }
+        }
+        // server
+        var systemTypes = "";
+        var systemTypesSel = document.getElementById("systemTypes");
+        if(systemTypesSel){
+            var i = 0;
+            for(i=0; i<systemTypesSel.length; i++){
+                if(systemTypesSel[i].selected){
+                    systemTypes += systemTypesSel.options[i].innerHTML+",";
+                }
+            }
+            if(systemTypes) {
+                systemTypes = "System Types: " + systemTypes.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - systemtypes";
+                else
+                    trackingAction += ", systemtypes";
+            }
+        }
+        var pFeatures = "";
+        //'feature' - KMS ; 'pFeatures' - Server,IODevices,Storage/SAN ; 'productFeatures' - Security
+        var pFeaturesEleIds = ["pFeatures","feature","productFeatures"];
+        var pFeaturesSel = "";
+        for(var i=0;i<pFeaturesEleIds.length;i++){
+            pFeaturesSel = document.getElementById(pFeaturesEleIds[i]);
+            if(pFeaturesSel != null){
+                break;
+            }
+        }
+        if(pFeaturesSel){
+            var i = 0;
+            for(i=0; i<pFeaturesSel.length; i++){
+                if(pFeaturesSel[i].selected){
+                    pFeatures += pFeaturesSel.options[i].innerHTML+",";
+                }
+            }
+            if(pFeatures) {
+                pFeatures = "Features: " + pFeatures.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - features";
+                else
+                    trackingAction += ", features";
+            }
+        }
+        var vsan_type = document.getElementById("vsan_type");
+
+        var partner = "";
+        var partnerSel = document.getElementById("partner");
+        if(partnerSel == null){
+            partnerSel = document.getElementById("partners");
+        }
+        if(partnerSel == null){
+            partnerSel = document.getElementById("vsan_partner");
+        }
+        if(partnerSel == null){
+            if(vsan_type){
+                var type = vsan_type.options[vsan_type.selectedIndex].value;
+                if (type == "vsanio"){
+                    partnerSel = document.getElementById("io_partner");
+                    trackCategory = "vSANIO";
+                }
+                if (type == "vsanssd"){
+                    partnerSel = document.getElementById("ssd_partner");
+                    trackCategory = "SSD";
+                }
+                if (type == "vsanhdd"){
+                    partnerSel = document.getElementById("hdd_partner");
+                    trackCategory = "HDD";
+                }
+            }
+        }
+        if(partnerSel){
+            var i = 0;
+            for(i=0; i<partnerSel.length; i++){
+                if(partnerSel[i].selected){
+                    partner += partnerSel.options[i].innerHTML+",";
+                }
+            }
+            if(partner) {
+                partner = "Partners: " + partner.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - partners";
+                else
+                    trackingAction += ", partners";
+            }
+        }
+        // io
+        var deviceTypes = "";
+        var deviceTypesSel = document.getElementById("deviceTypes");
+        if(deviceTypesSel){
+            var i = 0;
+            for(i=0; i<deviceTypesSel.length; i++){
+                if(deviceTypesSel[i].selected){
+                    deviceTypes += deviceTypesSel.options[i].innerHTML+",";
+                }
+            }
+            if(deviceTypes) {
+                deviceTypes = "I/O Device Type: " + deviceTypes.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - devicetypes";
+                else
+                    trackingAction += ", devicetypes";
+            }
+        }
+        // Views
+        var viewFeatures = "";
+        var viewFeaturesSel = document.getElementById("viewFeatures");
+        if(viewFeaturesSel){
+            var i = 0;
+            for(i=0; i<viewFeaturesSel.length; i++){
+                if(viewFeaturesSel[i].selected){
+                    viewFeatures += viewFeaturesSel.options[i].innerHTML+",";
+                }
+            }
+            if(viewFeatures) {
+                viewFeatures = "View Features: " + viewFeatures.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - viewfeatures";
+                else
+                    trackingAction += ", viewfeatures";
+            }
+        }
+        var clientType = "";
+        var clientTypeSel = document.getElementById("clientType");
+        if(clientTypeSel){
+            var i = 0;
+            for(i=0; i<clientTypeSel.length; i++){
+                if(clientTypeSel[i].selected){
+                    clientType += clientTypeSel.options[i].innerHTML+",";
+                }
+            }
+            if(clientType) {
+                clientType = "Thin Client Type: " + clientType.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - clienttype";
+                else
+                    trackingAction += ", clienttype";
+            }
+        }
+        var productType = "";
+        var productTypeSel = document.getElementById("productType");
+        if(productTypeSel){
+            var i = 0;
+            for(i=0; i<productTypeSel.length; i++){
+                if(productTypeSel[i].selected){
+                    productType += productTypeSel.options[i].innerHTML+",";
+                }
+            }
+            if(productType) {
+                productType = "Product Type: " + productType.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - producttype";
+                else
+                    trackingAction += ", producttype";
+            }
+        }
+        // san
+        var arrayTypes = "";
+        var arrayTypesSel = document.getElementById("arrayTypes");
+        if(arrayTypesSel){
+            var i = 0;
+            for(i=0; i<arrayTypesSel.length; i++){
+                if(arrayTypesSel[i].selected){
+                    arrayTypes += arrayTypesSel.options[i].innerHTML+",";
+                }
+            }
+            if(arrayTypes) {
+                arrayTypes = "Array Type: " + arrayTypes.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - arraytypes";
+                else
+                    trackingAction += ", arraytypes";
+            }
+        }
+        // software
+        var productNames = "";
+        var productNamesSel = document.getElementById("productNames");
+        if(productNamesSel){
+            var i = 0;
+            for(i=0; i<productNamesSel.length; i++){
+                if(productNamesSel[i].selected){
+                    productNames += productNamesSel.options[i].innerHTML+",";
+                }
+            }
+            if(productNames) {
+                productNames = "Product Name: " + productNames.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - productnames";
+                else
+                    trackingAction += ", productnames";
+            }
+        }
+        var operatingSystems = "";
+        var operatingSystemsSel = document.getElementById("operatingSystems");
+        if(operatingSystemsSel){
+            var i = 0;
+            for(i=0; i<operatingSystemsSel.length; i++){
+                if(operatingSystemsSel[i].selected){
+                    operatingSystems += operatingSystemsSel.options[i].innerHTML+",";
+                }
+            }
+            if(operatingSystems) {
+                operatingSystems = "OS Family Name: " + operatingSystems.replace(/,$/,"") + "; ";
+                if(trackingAction.indexOf('-') === -1)
+                    trackingAction += " - osfamilyname";
+                else
+                    trackingAction += ", osfamilyname";
+            }
+        }
+        var keywordStr = "";
+        var keyword = document.getElementById("keyword");
+        if(keyword && keyword.value){
+            keywordStr = "Keyword: " + keyword.value;
+            if(trackingAction.indexOf('-') === -1)
+                trackingAction += " - keyword";
+            else
+                trackingAction += ", keyword";
+        }
+        var tackingLabels = releases+srmVer+partner+pFeatures+systemTypes+deviceTypes+viewFeatures+clientType+productType+arrayTypes+productNames+operatingSystems+keywordStr;
+        pageTracker._trackEvent(trackCategory, trackingAction, tackingLabels, 0, true);
+    }
+
+
+
+</script>
+   <link rel="stylesheet" type="text/css" href="css/vcg-responsive.css" />
+
+</head>
+<body>
+    <!--  Feedback Form -->
+    <div id="comment-form-button-wrapper" style="margin-left: 60px;">
+        <div title="Contact Us"
+            class="feedback-trigger vcg-contact-us en-label"
+            id="comment-form-button">
+        Contact Us    </div>
+    </div>
+    <div id="page-header"></div>
+    <div id="page-side-nav"></div>
+    <div id="container">
+        <div id="content-container" class="wide">
+
+            <div id="content">
+
+      <ul class="breadcrumb">
+                <li><a href="//www.vmware.com">Home</a></li>
+                <li><a href="//www.vmware.com/guides.html">Resources</a></li><li><a href="./search.php">Compatibility Guides</a></li>
+                       <li class="active">Detail</li></ul><div class="h1"><a href="./search.php" style="text-decoration:none">VMware Compatibility Guide</a></div><div id="locale-modal" class="modal">
+         <div class="modal-dialog">
+         <div class="modal-content">
+         <div style="border-top-left-radius: 5px;">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="Close">&times;</button>
+         <h1 class="modal-h1">Select your language</h1>
+         </div>
+         <div class="modal-body">
+         <ul>
+         <li><a href="javascript:void(0);" onclick="changeLocale('zh_CN');">中文</a></li>
+         <li><a href="javascript:void(0);" onclick="changeLocale('en');">English</a></li>
+         <li><a href="javascript:void(0);" onclick="changeLocale('ja_JP');">日本語</a></li>
+         </ul>
+         </div>
+         <div class="modal-footer">
+         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+         </div>
+         </div>
+         </div>
+         </div><!-- modal -->
+   </div>
+
+    <div class="main-box" ><table id="details_table" border="0" cellspacing="0" cellpadding="0"
+    class="main_search_table">
+    <tbody>
+        <tr id="details_table_row_top"><td style="padding-top: 7px;"><a href="search.php?deviceCategory=io&amp;productid=37808&amp;deviceCategory=io&amp;details=3&amp;partner=23&amp;VID=14e4&amp;page=1&amp;display_interval=500&amp;sortColumn=Partner&amp;sortOrder=Asc"id="back_to_search_results" title="Back to Search Results" alt="Back to Search Results" class="btn vcg-btn" style="font-size: 13px;color:#ffffff;"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Back to Search Results</a></td><td style="text-align: right; padding-top: 11px; padding-right: 7px;"><a href="javascript:window.print();">Print</a></td></tr>        <tr class="details_table_title_row">
+            <td colspan="2">Model Details</td>
+        </tr>
+        <tr>
+            <td colspan="2" width="100%">                <table class="details_table_tab1" cellspacing="0"
+                    cellpadding="0" width="100%">
+                    <tr>
+        <th width="188">Model :</th><td width="350">BCM5720</td></tr><tr><th>Device Type :</th><td>Network</td><th>DID :</th><td>165f</td>
+            </tr>
+            <tr>
+            <th>Brand Name :</th><td>DELL</td>
+            <th>SVID :</th><td>1028</td>
+            </tr><tr>
+            <th>Number of Ports:</th>
+            <td>2</td><th>SSID :</th>
+            <td>04fa</td>
+            </tr><tr><th>VID :</th><td  width="300" valign="bottom">14e4</td></tr><tr>
+        <th>Notes:</th>
+        <td colspan="3"><ul><li>Firmware versions listed are the minimum supported versions. Refer to <span class='word-break' ><a href="http://kb.vmware.com/kb/2030818">http://kb.vmware.com/kb/2030818</a></span> for additional information on other supported driver and firmware combinations</li></ul></td></tr>
+        <tr><td colspan="6" style="text-align:right;padding-right:20px"><b>Click here to be notified when this page is updated: </b><a id="rsslink" href="rss/feed_service.php?devType=io&amp;id=37808" target="blank"><img src="images/rss_feed.png"/></a></td></tr>                 </table>             </td>
+        </tr>
+                <tr>
+            <td colspan="2" style="padding: 0px; height: 2px;">&nbsp;</td>
+        </tr>
+        <tr class="details_table_title_row">
+            <td colspan="2">Model Release Details                          <div id="collapseExpandDiv"
+                    style="width: 150px; float: right; text-align: right; padding-right: 3px;margin-left: -8px"></div>            </td>
+        </tr>
+        <tr>
+            <td colspan="2" width="100%">
+                <table class="details_table_tab2" border="0"
+                    cellspacing="0" cellpadding="0" width="100%">
+                    <tr><td colspan="3"><span class="vmwareProduct"><b>VMware Product Name : </b><select id="cmbSRel" onchange=IoDevices("io");load_kb_summary();;><option  value="0">ESXi 6.7 U2</option><option  value="1">ESXi 6.7 U1</option><option  value="3">ESXi 6.7</option><option  value="5">ESXi 6.5 U2</option><option  value="6">ESXi 6.5 U1</option><option  value="7">ESXi 6.5</option><option  value="32">ESXi 6.0 U3</option><option  value="36">ESXi 6.0 U2</option><option  value="40">ESXi 6.0 U1</option><option  value="45">ESXi 6.0</option><option  value="49">ESXi 5.5 U3</option><option  value="52">ESXi 5.5 U2</option><option  value="55">ESXi 5.5 U1</option><option  value="58">ESXi 5.5</option></select></span><br/><br/></td></tr>
+        <tr class="io_table_title_row">
+        <th width="20">&nbsp;</th>
+        <th width="200">Release</th><th width="250">Device Driver(s)</th>
+        <th width="250" title=The firmware column indicates the version of firmware that the driver was certified on and if the contents of the firmware column is 'NA', it means the firmware version was not captured during certification. For additional information regarding the latest firmware, refer to the footnotes associated to the applicable device.>Firmware Version</th>
+        <th width="250">Additional Firmware Version</th>
+        <th width="50">Type</th>
+        <th width="100">&nbsp;</th><th width="50"> Features</th></tr>
+        <tr id="tbl_details"><td colspan="8"></td></tr>                </table>
+            </td>
+        </tr>
+        <tr id="details_table_row_bottom"><td style="padding-top: 7px;"><a href="search.php?deviceCategory=io&amp;productid=37808&amp;deviceCategory=io&amp;details=3&amp;partner=23&amp;VID=14e4&amp;page=1&amp;display_interval=500&amp;sortColumn=Partner&amp;sortOrder=Asc"id="back_to_search_results" title="Back to Search Results" alt="Back to Search Results" class="btn vcg-btn" style="font-size: 13px;color:#ffffff;"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Back to Search Results</a></td><td style="text-align: right; padding-top: 11px; padding-right: 7px;"><a href="javascript:window.print();">Print</a></td></tr>    </tbody>
+</table>
+<script
+    type="text/javascript" src="common.js"></script>
+    <link rel="stylesheet" type="text/css" href="vsan.css" /><script src="//code.jquery.com/jquery-1.10.2.js"></script>
+                <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+                <script type="text/javascript" language="javascript" src="./jsfiles/bootstrap.min.js"></script>
+                <script type="text/javascript" language="javascript" src="./jsfiles/feedback.js"></script>
+                <div id="myModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div style="border-top-left-radius: 5px;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h1 class="modal-h1">Contact Us</h1>
+                                <p class="modal-p">If you notice problems with the data in the vCG, please let us know.</p>
+                                <p class="modal-p">Please note: The team monitoring your feedback cannot respond to the questions about installation, version compatibility, customer support, or any issue not related to the vCG site infrastructure and usability. Please refer to <a href='./help.php' target='_blank'>vCG FAQ</a> for more information.</p></p>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" id="feedbackForm">
+                                    <div class="form-group">
+                                        <label class="control-label" for="name">Your Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" maxlength="75" >
+                                        <input type="hidden" id="bookmarkUrl" name = "bookmarkUrl">
+                                        <span class="help-block" style="display: none;">Please enter your name.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="email">Your Email</label>
+                                        <input type="text" class="form-control" id="email" name="email" maxlength="200">
+                                        <span class="help-block" style="display: none;">Please enter a valid e-mail address.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="sel1">Subject</label>
+                                        <select class="form-control" id="sel1" name="sel1">
+                                            <option selected disabled>Select</option>
+                                            <option>Trouble searching</option>
+                                            <option>Feature request</option>
+                                            <option>Content missing or incorrect</option>
+                                            <option>How do I get listed?</option>
+                                         </select>
+                                        <span class="help-block" style="display: none;">Please select a Subject.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="message">Comments</label>
+                                        <textarea rows="10" cols="100" class="form-control" id="message" name="message" maxlength="4000"></textarea>
+                                        <span class="help-block" style="display: none;">Please enter comment.</span>
+                                    </div>
+                                    <div id="form-submit">
+                                        <button type="submit" id="feedbackSubmit" class="btn btn-primary" >Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><nav title="Share" class="ga-links" id="menu-share">
+    <ul>
+        <li class="menu-item-share"> <span class="vmSocialButton"> <a target="_blank" title=Share on Facebook href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.vmware.com%2Fgo%2Fvcg" class="_blank external ga-tracked"> <span class="vmwCustomSocial icon facebook">&nbsp;</span> </a>
+            </span>
+        </li>
+        <li class="menu-item-share"> <span class="vmSocialButton"> <a target="_blank" title=Share on Twitter href="https://www.twitter.com/home?status=http%3A%2F%2Fwww.vmware.com%2Fgo%2Fvcg" class="_blank external ga-tracked"> <span class="vmwCustomSocial icon twitter">&nbsp;</span> </a>
+            </span>
+        </li>
+        <li class="menu-item-share"> <span class="vmSocialButton"> <a target="_blank" title=Share on Google Plus href="https://plus.google.com/share?url=http%3A%2F%2Fwww.vmware.com%2Fgo%2Fvcg" class="_blank external ga-tracked"> <span class="vmwCustomSocial icon googleplus">&nbsp;</span> </a>
+            </span>
+        </li>
+        <li class="menu-item-share"> <span class="vmSocialButton"> <a target="_blank" title=Share on LinkedIn href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fwww.vmware.com%2Fgo%2Fvcg&amp;title=VMWare%20Compatibility%20Guide&amp;summary=&amp;source=www.vmware.com" class="_blank external ga-tracked"> <span class="vmwCustomSocial icon linkedin">&nbsp;</span> </a>
+            </span>
+        </li>
+    </ul>
+</nav>
+   <style>
+   #menu-share {
+    background: #ededed none repeat scroll 0 0;
+    border-radius: 4px 0 0 4px;
+    box-shadow: 0 5px 15px #000;
+    left: 100.8%;
+    opacity: 0.9;
+    padding: 0px 0px;
+    position: fixed;
+    top: 405px;
+    z-index: 190;
+    float: right;
+    width: 34px;
+   }
+   .share-header.a-hide-block {
+    height: 11px;
+   }
+   .share-header {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #0095d3 0px, #007fb4 100%) repeat scroll 0 0;
+    color: #fff;
+    font-size: 11px;
+    left: 0;
+    margin: 0;
+    min-height: 11px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: -19px;
+    width: 100%;
+   }
+   .share-header img{
+      border-top-left-radius:5px;
+   }
+   .share-header.a-hide-block img {
+    margin-top: -5px;
+   }
+   #menu-share ul,#menu-share li {
+    margin: 0 0px;
+   }
+   #menu-share li {
+    opacity: 0.8;
+    transition: all 0.2s linear 0s;
+   }
+   #menu-share ul,  #menu-share li {
+    margin: 0 0px;
+   }
+   .menu-item-share {
+    display: block !important;
+    float: none;
+    height: 24px;
+    line-height: 18px;
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    width: 24px;
+   }
+   .menu-item-share .icon.facebook {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAACFklEQVR4AaWUv2sTcRjG3+97l+RyyTVpjKioQ39sglVDi7/ALtF2aHWooF20HYpYB0VxEE0Rh4KriIhIXArq4NhJB/8EB1EcTEVnRQVNLnff14cMXxI8k2t8ePjyknveD89duOONT19urFZPzK9Mzt3sw+Uzlet3Hn/c+MzV56/ffPiWye8sbh8u7hjZlLHiFXa/rf14uPaS39W+ZnNbXa+QzubTmdymjBXXG8T6+9p3thKObadISLTuw1i07STbDotSgPTBMBYiQFgwxpBtydLcgQeVmbW7p+FHt08GTd9cFRGAwp4OA//s1J5jEyMDWYdawmaz8as9wyIght3d9OuH9g9RhyQIGm0ZjUa9QUGznhtwqaVT51eOzF6dWVglUiYgaBSDA1Jomvys27nCLtcrspU0AagF6tal8eL+4nr1sgG9enpr/cmVZ/eWOpOaRbqV8f3fFKnWw+64NRQPdRCG0UajaA5ATd/EAOlxa9g5PHutVL5gEJjHp5aPz1dIUXuSpetzVpbtZAfxThkQ5mx+m5PJK7ZMTESjEXVBkSjLSoFmQJjthIsfcak9yThiWBsQ5sgAk+jeIAnJgCQ6EOtdI9joHwHWMSSkSuWLY5OLODFHRjjOx0ixlXA9x9uCE3NkhpXq/W0kwn+XtBMOTsx/ByxWPL53GM1E/sM6PLhvlJfPTR8tjWbSSelLbioxMTZ0aWH6D/b4wwVVzNsMAAAAAElFTkSuQmCC");
+   }
+   .menu-item-share .icon.twitter {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAABtElEQVR4Ae2UvcvTUBTGj4rgopuTi2BB3F0cncRVBAf/C6duOjg46lTUmta2sW3ShGIVHdoX8k4KOvhRFPwaCtrce5O0lqZJ2jSegxRsQ64iHXt4huT28svznN5zAVrOdrQDkTQH9H8EGQ40Bcn4Y9GkRSgxqHJ4yKHCQRWgcjCljg4h4pEgmSt0XSDi2ptpz460QXjmmXe87Z7tjaAhskElln83bQ5CKDNQGK5QljK/+yVIVrVYJvYsvv1pdqTGQRMZoHv2rY8+7t5j0enHLty34c6Pg4aTpOrqy8lhTKdnOaryk089L1r+3q1+DS51R1deTDYo+3xOfqmV2aBzvfGHn2h/reL1V+wUNkH6rynscur76bre96EoB2HmCr/Z94dBLAGdeu5BRQ4yyNSJjovZsqr9PYIHDPS/nuyGOKo5yrdAhHGcwqHPYy1yDYYcZBIICkNU/u00XM8XJcn57ojsGPIR0Z0DdXHRGhuD0E31yLKjXMeFYgYFtZEr98S98d7HA/nam79yFxaPCp9nF6wxDVo5TZEPrcLomKiCpqzG6RnVxF//4xrRHdAEQbXdVbs90C8fKCC2eLGxywAAAABJRU5ErkJggg==");
+   }
+   .menu-item-share .icon.googleplus {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAAEd0lEQVR4AZ2V+09bZRjHz79goglgB+XW0guUS1t6pbBWbgYqbhANi5km/mCiMRpnokxJdLIlLDAmjovDjMxEo0az6cba0p6etrQDWk57elo6GUgKYxPaDRiDcmnxaV+EjIBLPPm2yXve9/mc7/s8z3kPFg6F/P29RH0lXlt6oMx1Gvg/VNoyqvN8aH4e8/d/O6rgeEt4/1sQTn3dioEXNKaUXI+M7ZZkuyVZ++SRsShYsCcuug8hVCIWXGPmGhUNVCGTKMowvawYaqyxvVZtOV4OstZXDJ3Q2t+oI46XD0lYtIqXCOMaZRwisWBQHn88gPAaFYbXqvBCpqWxZvKH/jnjQNjjikWj24krtr29eMf/yE972s/CGgSi5GxzpQwtsNRXgC8AQbKwX9TiseZTkXBo+tcfifoKo0Zkf/v1hxQJ66Lr63d6L95S5loL0saUPADFkxAHSWMJEJjySLJo2BqADE0fbsdif9twvTjbJWSSkmx7bgoQV+dmYelWJHL7nRPDwgzw4sg/Ys9NtnNe0Es5CDRYLrGxnnPkJt8oK8QmfTTcolpOOwQMYEMAPBnnp/i72pH/+VGHUcqBDI42fUC3tXjPnwl0d6CpiSvd3tYv/BfOEa1fYTOz8SeTzaeGBQxwjqrgkrEsdUc3IxGY2lhdJdRCEy9p5cHc9kFXNBqdf/wECwaDMAh0tVmL0r2JcoLAmlHCWpqaiO9uc8NSUWzMY0xd+zlMu0Ne92LAhxBLE4EQRcJNmjBhwZmZuP/bNqilV8HZAxWz5kfsMLU8PWlU8Jxyjik/1ZTHMHKTdMpcBDJWKwZznsfzGL8dFQIo7ii6sWE7ecxWkOpTQY74XiVnsJi1PD0FU56W0xZhhi+eu4QUT1WNkmZBCKEtxW73dSE8dJC+rIDgJw3nHxnkJZPNH8fTefWyrpjlkbORU9RHRJUchVgbqtySzJ0++qlScbe/J7a1BROLAZr88hPHe2/d6evcXHn855UenSjLLWejIiCBWYNK4LvU5r/UZtCIKHnODshQJcdFmbCvQE/HfbMhTDq3ImsAnTPpbgnhLWN7UUPvCfKVM8RPAo3KwCl/B2TWlkGOneIMsyjzD16yv+Mcsn33+z49P4VSwsGwH+TdFRoiEPzoxMBfwrUJGOSZJgTaWF4a+/wjXT6TlOegRj1Eu6AalUuU7ihMM0rY+hKBqU6z9m/jRTc3x7sv3CxgkrDBZ4Kua8REQyV19rN7hpsPrPgcroP2eXJvdrdxx3s7dPCuKbnPAA1f/W79YSgSXhjvane8+ya8rnh5MfGqZmbg+i7L9en7NmE6rfpP0P1Hi1AgvVpoFbw4UpjqFGeSUtaIkGmQsMZ7LqK2WHA7TeLsw0ztHGwTHjdeLR8RpdNPlwOOV70gFVoJQCvBaTjMxqTZ3kNA5jo1NuWjB/LT/KX8fXUFrlOYbmnURtdWV4J/Eeoit4x92OFP93Rg4XDY1dtpfkW9/ytUW6qrlP1+smHS7yNvXL+mFhHagz5Wx17yXf4mHFr4B2dwsHBhRbGoAAAAAElFTkSuQmCC");
+   }
+   .menu-item-share .icon.linkedin {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAACGElEQVR4AaWTT2gTURDG3052E9NYN4LFVouigkYIeNiD+OegFr1YPIlYLEjFS/DsH0R6UlBr8SwWCt68ePFSPUqPYkG9KRSFCJ4U1NCY92b8luLL7J7SZBiG783s72NeNkufvzavLbw8dPvpgetP+kiAwGFCD1+9W/72K9q6LR4di8c2lkAAAocJvf3+uxxXS5uHi5VKcWhjCQQgcJiQCYtBGIkYZukjAQKHCYkEgpbjvhM4TChnYp29kux+05hAhe7RDSbELuNk238vJXujAqFC97yXUFpdN23HPlv++KfdQYVGp6fkdKNMsJj51yv1Wwuo0Hq0vRKdrY3uqZadtS4bMCGg2ptFPt2fWX3cQAXw/uY55OLUkRsnakuNM3cnkxdXT905Xbc2uywLoegWfhfzP9qt1rpIdo1MH97v+xeSfSObQk3BhCB0WNvxgG2veX18dvH8o+f+OD5cwlL6bsRZJxz908xdvfqjtdL86Y9RIM5aTZHFdaxKZeScGB9haU3In9gJfDTV60bMwiLdo6TPair/P3IaVnr9Y1Ajk6Pyby2zkSazI2Hm/FuD0iFSnZmLp++hckBeo+9H8eUHSx++ZLn81bAySTQk5S1ppchr9LujUoUpdCyZq0n+QzYcFGCBCtJr9P1IgpAl0F87TMgfB0phKphgcCeY0MnaDk5DBkieOLiT5qeOTdbHiwXDfQVA4HMXj/4Dy2Ojm2Lmo0gAAAAASUVORK5CYII=");
+   }
+   .vmSocialButton .vmwCustomSocial {
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 24px;
+   }
+   </style>
+   <script>
+     $(document).ready(function(){
+        encoded_url=encodeURIComponent(window.location.href.replace(/.*comp_guide2.*\//g, "http:\/\/www.vmware.com\/resources\/compatibility\/"));
+        encoded_title=encodeURIComponent(document.title);
+        $(".vmwCustomSocial.icon.facebook").parent().attr("href","https://www.facebook.com/sharer/sharer.php?u="+encoded_url);
+        $(".vmwCustomSocial.icon.twitter").parent().attr("href","https://www.twitter.com/home?status="+encoded_url);
+        $(".vmwCustomSocial.icon.googleplus").parent().attr("href","https://plus.google.com/share?url="+encoded_url);
+        $(".vmwCustomSocial.icon.linkedin").parent().attr("href","https://www.linkedin.com/shareArticle?mini=true&url="+encoded_url+"&title="+encoded_title+"&summary=&source=www.vmware.com");
+     });
+    </script><script type="text/javascript">var details =[{"CertDetail_Id":6232281,"Release_Id":428,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.2-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.7 U2","ReleaseVersionOrig":"ESXi 6.7 U2","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.2-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670920,"Component_Release_Id":1018326,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":6047296,"Release_Id":427,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.2-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.2-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":5964540,"Release_Id":427,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.2-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.2-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":6047290,"Release_Id":369,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.0-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.0-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":5614250,"Release_Id":369,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.0-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.0-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":5526556,"Release_Id":408,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.3.0-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.5 U2","ReleaseVersionOrig":"ESXi 6.5 U2","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.3.0-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650920,"Component_Release_Id":981002,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":5166325,"Release_Id":367,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.2.0-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.5 U1","ReleaseVersionOrig":"ESXi 6.5 U1","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.2.0-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650910,"Component_Release_Id":956069,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":4776352,"Release_Id":338,"Component_Id":37808,"DriverName":"ntg3","Version":"4.1.0.0-1vmw","Driver_Url":null,"DeviceType":"Network","Type":0,"ReleaseVersion":"ESXi 6.5","ReleaseVersionOrig":"ESXi 6.5","inbox_async":"VMware Inbox","Footnotes":null,"DeviceDrivers":"ntg3  version  4.1.0.0-1vmw","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 9, 2016","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A","FirmwareVersion":"N\/A","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650900,"Component_Release_Id":926798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"native"},{"CertDetail_Id":6226414,"Release_Id":428,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U2","ReleaseVersionOrig":"ESXi 6.7 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670920,"Component_Release_Id":1018326,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":6221904,"Release_Id":428,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U2","ReleaseVersionOrig":"ESXi 6.7 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670920,"Component_Release_Id":1018326,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":6220650,"Release_Id":428,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U2","ReleaseVersionOrig":"ESXi 6.7 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670920,"Component_Release_Id":1018326,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":6220127,"Release_Id":428,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U2","ReleaseVersionOrig":"ESXi 6.7 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670920,"Component_Release_Id":1018326,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5948885,"Release_Id":427,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5945232,"Release_Id":427,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5943861,"Release_Id":427,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5943250,"Release_Id":427,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7 U1","ReleaseVersionOrig":"ESXi 6.7 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670910,"Component_Release_Id":999119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5420107,"Release_Id":369,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5414338,"Release_Id":369,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5412725,"Release_Id":369,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5412036,"Release_Id":369,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.7","ReleaseVersionOrig":"ESXi 6.7","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":7,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300670900,"Component_Release_Id":972256,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5544352,"Release_Id":408,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U2","ReleaseVersionOrig":"ESXi 6.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650920,"Component_Release_Id":981002,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5539439,"Release_Id":408,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U2","ReleaseVersionOrig":"ESXi 6.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650920,"Component_Release_Id":981002,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5537335,"Release_Id":408,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U2","ReleaseVersionOrig":"ESXi 6.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650920,"Component_Release_Id":981002,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5535944,"Release_Id":408,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U2","ReleaseVersionOrig":"ESXi 6.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650920,"Component_Release_Id":981002,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5201721,"Release_Id":367,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U1","ReleaseVersionOrig":"ESXi 6.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650910,"Component_Release_Id":956069,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5183458,"Release_Id":367,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U1","ReleaseVersionOrig":"ESXi 6.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650910,"Component_Release_Id":956069,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5178660,"Release_Id":367,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U1","ReleaseVersionOrig":"ESXi 6.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650910,"Component_Release_Id":956069,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5175774,"Release_Id":367,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5 U1","ReleaseVersionOrig":"ESXi 6.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650910,"Component_Release_Id":956069,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5051488,"Release_Id":338,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5","ReleaseVersionOrig":"ESXi 6.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650900,"Component_Release_Id":926798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4858777,"Release_Id":338,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5","ReleaseVersionOrig":"ESXi 6.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650900,"Component_Release_Id":926798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4853806,"Release_Id":338,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5","ReleaseVersionOrig":"ESXi 6.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650900,"Component_Release_Id":926798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4850851,"Release_Id":338,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.5","ReleaseVersionOrig":"ESXi 6.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300650900,"Component_Release_Id":926798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5051490,"Release_Id":276,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U3","ReleaseVersionOrig":"ESXi 6.0 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600930,"Component_Release_Id":943861,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4985046,"Release_Id":276,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U3","ReleaseVersionOrig":"ESXi 6.0 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600930,"Component_Release_Id":943861,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4978801,"Release_Id":276,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U3","ReleaseVersionOrig":"ESXi 6.0 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600930,"Component_Release_Id":943861,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4975389,"Release_Id":276,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U3","ReleaseVersionOrig":"ESXi 6.0 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600930,"Component_Release_Id":943861,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5051485,"Release_Id":275,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U2","ReleaseVersionOrig":"ESXi 6.0 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600920,"Component_Release_Id":914464,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4586556,"Release_Id":275,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U2","ReleaseVersionOrig":"ESXi 6.0 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600920,"Component_Release_Id":914464,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4580179,"Release_Id":275,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U2","ReleaseVersionOrig":"ESXi 6.0 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600920,"Component_Release_Id":914464,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4573183,"Release_Id":275,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U2","ReleaseVersionOrig":"ESXi 6.0 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600920,"Component_Release_Id":914464,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":5051483,"Release_Id":274,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U1","ReleaseVersionOrig":"ESXi 6.0 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600910,"Component_Release_Id":902119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4380619,"Release_Id":274,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U1","ReleaseVersionOrig":"ESXi 6.0 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600910,"Component_Release_Id":902119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4370887,"Release_Id":274,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U1","ReleaseVersionOrig":"ESXi 6.0 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600910,"Component_Release_Id":902119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4370888,"Release_Id":274,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U1","ReleaseVersionOrig":"ESXi 6.0 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600910,"Component_Release_Id":902119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4360078,"Release_Id":274,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0 U1","ReleaseVersionOrig":"ESXi 6.0 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600910,"Component_Release_Id":902119,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4288386,"Release_Id":273,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v60.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI60-BROADCOM-TG3-3137LV601&productId=491","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0","ReleaseVersionOrig":"ESXi 6.0","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v60.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600900,"Component_Release_Id":884570,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4288753,"Release_Id":273,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0","ReleaseVersionOrig":"ESXi 6.0","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600900,"Component_Release_Id":884570,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4181082,"Release_Id":273,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0","ReleaseVersionOrig":"ESXi 6.0","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600900,"Component_Release_Id":884570,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4155653,"Release_Id":273,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 6.0","ReleaseVersionOrig":"ESXi 6.0","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":6,"Minor":0,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300600900,"Component_Release_Id":884570,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4337621,"Release_Id":272,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U3","ReleaseVersionOrig":"ESXi 5.5 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550930,"Component_Release_Id":879684,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4329791,"Release_Id":272,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U3","ReleaseVersionOrig":"ESXi 5.5 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550930,"Component_Release_Id":879684,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4326283,"Release_Id":272,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U3","ReleaseVersionOrig":"ESXi 5.5 U3","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550930,"Component_Release_Id":879684,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4288717,"Release_Id":271,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U2","ReleaseVersionOrig":"ESXi 5.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550920,"Component_Release_Id":863807,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4181028,"Release_Id":271,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U2","ReleaseVersionOrig":"ESXi 5.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550920,"Component_Release_Id":863807,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4044631,"Release_Id":271,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U2","ReleaseVersionOrig":"ESXi 5.5 U2","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550920,"Component_Release_Id":863807,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4288681,"Release_Id":172,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U1","ReleaseVersionOrig":"ESXi 5.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550910,"Component_Release_Id":863806,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4180974,"Release_Id":172,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U1","ReleaseVersionOrig":"ESXi 5.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550910,"Component_Release_Id":863806,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4044630,"Release_Id":172,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5 U1","ReleaseVersionOrig":"ESXi 5.5 U1","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550910,"Component_Release_Id":863806,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4288645,"Release_Id":243,"Component_Id":37808,"DriverName":"tg3","Version":"3.137l.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESX55-BROADCOM-TG3-3137LV551&productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5","ReleaseVersionOrig":"ESXi 5.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137l.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"July 16, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.39","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550900,"Component_Release_Id":863798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4180922,"Release_Id":243,"Component_Id":37808,"DriverName":"tg3","Version":"3.137h.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137HV551&amp;productId=353","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5","ReleaseVersionOrig":"ESXi 5.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html\r\n<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137h.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"January 29, 2015","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.36","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550900,"Component_Release_Id":863798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"},{"CertDetail_Id":4044622,"Release_Id":243,"Component_Id":37808,"DriverName":"tg3","Version":"3.137d.v55.1","Driver_Url":"https:\/\/my.vmware.com\/web\/vmware\/details?downloadGroup=DT-ESXI55-BROADCOM-TG3-3137DV551&amp;productId=353\n","DeviceType":"Network","Type":1,"ReleaseVersion":"ESXi 5.5","ReleaseVersionOrig":"ESXi 5.5","inbox_async":"Partner Async","Footnotes":"Download driver from http:\/\/www.vmware.com\/download\/vsphere\/drivers_tools.html<br>iBFT Enabled","DeviceDrivers":"tg3  version  3.137d.v55.1","KB_Ids":null,"KB_Id":null,"KB":"","OS_Use":"Standard","VMwareSupportDate":"September 8, 2014","Major":5,"Minor":5,"Patch":null,"Solution":"N\/A,N\/A","FirmwareVersion":"1.34","AddlFirmwareVersion":null,"VioSolution":null,"SwitchName":null,"SwitchFirmwareVersion":null,"SwitchBrandName":null,"SortOrder":1300550900,"Component_Release_Id":863798,"Configuration_Id":101,"VmklinuxOrNativeDriver":"vmklinux"}];
+
+                var releaseVal = $("#cmbSRel").find('option:selected').text();
+                var prodDetails={"IODevice_Id":37808,"PartnerName":"DELL","ModelName":"BCM5720","DeviceType_Id":6,"DeviceType":"Network","VID":"14e4","DID":"165f","SVID":"1028","SSID":"04fa","FirmwareVersion":"","queue_depth":null,"FirmVer":"N\/A","NumberOfPorts":2,"Num_Of_Ports":"2","IODevice_Type_Group_Id":null,"Group_Name":null,"Footnotes":"Firmware versions listed are the minimum supported versions. Refer to http:\/\/kb.vmware.com\/kb\/2030818 for additional information on other supported driver and firmware combinations"};
+var col_CategoryName=3;
+var col_Feature_Category_Id=2;
+var col_Features=5;
+var col_Feature_value=6;
+var cert_features={"5614250-1":["37808", "369", "20", "IO Device", ["194"], "IPv6", "IPv6||"]
+, "5964540-1":["37808", "427", "20", "IO Device", ["194"], "IPv6", "IPv6||"]
+, "6232281-1":["37808", "428", "20", "IO Device", ["194"], "IPv6", "IPv6||"]
+};;
+
+                        setTimeout(function(){trackDetailsPageEvents(prodDetails['PartnerName'], prodDetails['ModelName'], releaseVal);},1000);IoDevices('io'); </script>
+   <br />
+        </div>
+    </div>
+    </div>
+    </div>
+    <div id="page-footer"></div>
+    <script type="text/javascript"
+        src="https://www.vmware.com/bin/vmware/template/scrapercontent.en.js"></script>
+    <script type="text/javascript"
+        src="https://www.vmware.com/content/dam/vmwaredesigns/scrapercontent/responsive.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>: -->
+    <script type="text/javascript" src="./jsfiles/locale.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="./jsfiles/bootstrap.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,39 @@
+[2019-04-29 17:34:10,640: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2019-04-29 17:34:10,717: INFO/MainProcess] mingle: searching for neighbors
+[2019-04-29 17:34:11,866: INFO/MainProcess] mingle: all alone
+[2019-04-29 17:34:11,981: INFO/MainProcess] celery@W10DZV17S2 ready.
+[2019-04-29 17:34:11,983: INFO/MainProcess] Received task: tasks.tasks.crawl[5615e058-41c3-416c-b941-a98f14f8af94]  
+[2019-04-29 17:34:11,984: INFO/MainProcess] Received task: tasks.tasks.crawl[9bfdba3a-72fd-4cc9-902a-e963cca8831c]  
+[2019-04-29 17:34:11,986: INFO/MainProcess] Received task: tasks.tasks.crawl[e53b9c08-7ec8-4589-8c97-87e9d13f4e59]  
+[2019-04-29 17:34:11,988: INFO/MainProcess] Received task: tasks.tasks.crawl[ea6006e1-fdd2-4b31-80d7-4d257df0d039]  
+[2019-04-29 17:34:11,989: INFO/MainProcess] Received task: tasks.tasks.crawl[e44c3b43-3d26-4fe4-bc1c-14eb46b53351]  
+[2019-04-29 17:34:11,991: INFO/MainProcess] Received task: tasks.tasks.crawl[d3d72297-d14e-4ce4-a92f-86df1db898c9]  
+[2019-04-29 17:34:11,992: INFO/MainProcess] Received task: tasks.tasks.crawl[b04f364a-d4f3-4f43-867d-821b99829ebd]  
+[2019-04-29 17:34:11,994: INFO/MainProcess] Received task: tasks.tasks.crawl[db7adb6c-999f-4c25-a33b-b370b0393b49]  
+[2019-04-29 17:34:11,995: INFO/MainProcess] Received task: tasks.tasks.crawl[62bd916b-2189-4117-8541-4f112fbc9e7a]  
+[2019-04-29 17:34:12,942: INFO/SpawnPoolWorker-6] child process 5872 calling self.run()
+[2019-04-29 17:34:12,943: INFO/SpawnPoolWorker-4] child process 6224 calling self.run()
+[2019-04-29 17:34:12,982: INFO/SpawnPoolWorker-5] child process 21764 calling self.run()
+[2019-04-29 17:34:13,212: INFO/SpawnPoolWorker-3] child process 4608 calling self.run()
+[2019-04-29 17:34:13,216: INFO/SpawnPoolWorker-7] child process 17988 calling self.run()
+[2019-04-29 17:34:13,248: INFO/SpawnPoolWorker-8] child process 22740 calling self.run()
+[2019-04-29 17:34:13,307: INFO/SpawnPoolWorker-1] child process 17504 calling self.run()
+[2019-04-29 17:34:17,159: INFO/SpawnPoolWorker-9] child process 2696 calling self.run()
+[2019-04-29 17:34:47,562: INFO/MainProcess] Events of group {task} enabled by remote.
+[2019-04-29 17:34:55,232: INFO/MainProcess] Received task: tasks.tasks.crawl[ed24bb20-c2d3-499d-ac7f-73930b186f23]  
+[2019-04-29 17:36:54,986: ERROR/MainProcess] Process 'SpawnPoolWorker-9' pid:16016 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,987: ERROR/MainProcess] Process 'SpawnPoolWorker-8' pid:8088 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,987: ERROR/MainProcess] Process 'SpawnPoolWorker-7' pid:21204 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,988: ERROR/MainProcess] Process 'SpawnPoolWorker-6' pid:10620 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,989: ERROR/MainProcess] Process 'SpawnPoolWorker-5' pid:16580 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,989: ERROR/MainProcess] Process 'SpawnPoolWorker-4' pid:13408 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,990: ERROR/MainProcess] Process 'SpawnPoolWorker-3' pid:20128 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:54,991: ERROR/MainProcess] Process 'SpawnPoolWorker-1' pid:12212 exited with 'exitcode 3221225786'
+[2019-04-29 17:36:57,919: INFO/SpawnPoolWorker-14] child process 20548 calling self.run()
+[2019-04-29 17:36:57,924: INFO/SpawnPoolWorker-17] child process 4160 calling self.run()
+[2019-04-29 17:36:57,938: INFO/SpawnPoolWorker-11] child process 18640 calling self.run()
+[2019-04-29 17:36:57,980: INFO/SpawnPoolWorker-15] child process 12236 calling self.run()
+[2019-04-29 17:36:58,489: INFO/SpawnPoolWorker-10] child process 7300 calling self.run()
+[2019-04-29 17:36:58,679: INFO/SpawnPoolWorker-13] child process 11136 calling self.run()
+[2019-04-29 17:36:58,870: INFO/SpawnPoolWorker-16] child process 22760 calling self.run()
+[2019-04-29 17:36:58,976: INFO/SpawnPoolWorker-12] child process 21996 calling self.run()

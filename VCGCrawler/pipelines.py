@@ -37,10 +37,15 @@ class SaveDriverItemToMongo(SaveItemToMongo):
         coll_n = spider.settings.get('MONGO_DB_COLL')
         drivers_coll = self.db[coll_n]
 
-        product = drivers_coll.find_one({'product_id': item.get('product_id')})
-        if product:
-            # remove the existing item
-            drivers_coll.delete_many({'product_id': item.get('product_id')})
+        unique_driver = {'product_id': item.get('product_id'),
+                         'device_driver': item.get('device_driver'),
+                         'firmware_version': item.get('firmware_version'),
+                         'os_version': item.get('os_version')}
+
+        driver = drivers_coll.find_one(unique_driver)
+        if driver:
+            # remove the existing driver
+            drivers_coll.delete_many(unique_driver)
         spider.logger.info(f"Save the following driver to mongodb. ")
         spider.logger.info(dict(item))
         drivers_coll.insert_one(dict(item))
@@ -55,7 +60,7 @@ class SaveIODataItemToMongo(SaveItemToMongo):
 
         product = coll.find_one({'product_id': item.get('product_id')})
         if list(product):
-            # remove the existing item
+            # remove the existing product
             coll.delete_many({'product_id': item.get('product_id')})
         spider.logger.info(f"Save the following io data to mongodb. ")
         spider.logger.info(dict(item))

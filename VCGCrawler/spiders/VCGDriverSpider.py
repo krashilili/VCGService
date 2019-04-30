@@ -17,8 +17,6 @@ class VCGDriverSpider(scrapy.Spider):
     BASIC_URL = DRIVER_URL_PREX+"&productid={product_id}&VID={vid}"
 
     def start_requests(self):
-        self.vid, self.did, self.svid, self.ssid = "14e4", "163a", "105b", "0cff"
-
         # get the product id from `io_data` collection
         self.product_id = io_data_coll.find_one({'vid': self.vid,
                                                  'did': self.did,
@@ -57,7 +55,10 @@ class VCGDriverSpider(scrapy.Spider):
             driver_item['driver_name'] = driver_dict.get('DriverName')
             driver_item['driver_version'] = driver_dict.get('Version')
             url = driver_dict.get('Driver_Url')
-            driver_item['driver_url'] = url.replace('amp;','')
+            try:
+                driver_item['driver_url'] = url.replace('amp;','')
+            except:
+                driver_item['driver_url'] = url
             driver_item['os_version'] = driver_dict.get('ReleaseVersion')
             driver_item['inbox_async'] = driver_dict.get('inbox_async')
             driver_item['device_driver'] = driver_dict.get('DeviceDrivers')
